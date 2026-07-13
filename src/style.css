@@ -1,0 +1,272 @@
+/* RUCHI KOOTU - Custom Luxury Styling System */
+
+:root {
+    --color-obsidian-dark: #050505;
+    --color-obsidian-base: #0A0A0A;
+    --color-obsidian-light: #121212;
+    --color-gold-champagne: #D4AF37;
+    --color-gold-muted: #C9A25C;
+    --color-gold-light: rgba(212, 175, 55, 0.15);
+    --color-gold-faint: rgba(212, 175, 55, 0.05);
+
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-sans: 'Inter', -apple-system, sans-serif;
+
+    --easing-luxury: cubic-bezier(0.4, 0, 0.2, 1);
+    --duration-luxury: 600ms;
+}
+
+/* Base resets & typography */
+html,
+body {
+    background-color: var(--color-obsidian-dark);
+    color: #E5E5E5;
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+/* Luxury Noise Texture Overlay */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0.025;
+    z-index: 9999;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Custom Luxury Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-obsidian-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #2A2A2A;
+    border-radius: 4px;
+    border: 2px solid var(--color-obsidian-dark);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-gold-champagne);
+}
+
+/* Hairline Gold Gradient Border & Glows */
+.gold-border {
+    border: 1px solid rgba(212, 175, 55, 0.12);
+    position: relative;
+}
+
+.gold-border::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), transparent 40%, transparent 60%, rgba(201, 162, 92, 0.2));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+/* Glassmorphism Panels */
+.glass-panel {
+    background: rgba(10, 10, 10, 0.65);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(212, 175, 55, 0.08);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.03), 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.glass-panel-gold {
+    background: rgba(10, 10, 10, 0.7);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    box-shadow: inset 0 0 12px rgba(212, 175, 55, 0.05), 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* Gold Glow Pulses */
+@keyframes goldPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.2);
+    }
+
+    70% {
+        box-shadow: 0 0 20px 6px rgba(212, 175, 55, 0.0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
+    }
+}
+
+.gold-glow-button {
+    animation: goldPulse 3s infinite;
+    transition: all var(--duration-luxury) var(--easing-luxury);
+}
+
+.gold-glow-button:hover {
+    box-shadow: 0 0 25px 8px rgba(212, 175, 55, 0.3);
+    transform: translateY(-1px);
+}
+
+/* Shimmer sweeps on hover */
+.shimmer-sweep {
+    position: relative;
+    overflow: hidden;
+}
+
+.shimmer-sweep::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.08),
+            transparent);
+    transform: skewX(-25deg);
+    transition: 0.75s;
+}
+
+.shimmer-sweep:hover::before {
+    left: 150%;
+    transition: 0.75s var(--easing-luxury);
+}
+
+/* Skeleton loader shimmer */
+@keyframes skeletonShimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.skeleton-loading {
+    background: linear-gradient(90deg, #121212 25%, #222 37%, #121212 63%);
+    background-size: 400% 100%;
+    animation: skeletonShimmer 1.8s infinite ease-in-out;
+}
+
+/* Page transitions and visual reveals */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 800ms var(--easing-luxury) forwards;
+}
+
+/* Delay modifiers for sequenced reveals */
+.delay-1 {
+    animation-delay: 150ms;
+}
+
+.delay-2 {
+    animation-delay: 300ms;
+}
+
+.delay-3 {
+    animation-delay: 450ms;
+}
+
+/* Cinematic Aurora Gradient Background */
+.aurora-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.aurora-glow-1 {
+    position: absolute;
+    top: -10%;
+    left: 20%;
+    width: 60vw;
+    height: 60vw;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.03) 0%, transparent 70%);
+    filter: blur(80px);
+    animation: drift 25s infinite alternate ease-in-out;
+}
+
+.aurora-glow-2 {
+    position: absolute;
+    bottom: -20%;
+    right: 10%;
+    width: 70vw;
+    height: 70vw;
+    background: radial-gradient(circle, rgba(201, 162, 92, 0.02) 0%, transparent 60%);
+    filter: blur(100px);
+    animation: drift 35s infinite alternate-reverse ease-in-out;
+}
+
+@keyframes drift {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate(5%, 4%) scale(1.1);
+    }
+
+    100% {
+        transform: translate(-3%, -5%) scale(0.95);
+    }
+}
+
+/* Interactive custom styled Google map fallback */
+.dark-map-placeholder {
+    background: radial-gradient(circle at center, #121212 0%, #080808 100%);
+    background-size: 40px 40px;
+    background-image:
+        linear-gradient(to right, rgba(214, 175, 55, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(214, 175, 55, 0.03) 1px, transparent 1px);
+}
+
+/* Custom premium buttons */
+.luxury-btn-primary {
+    background: linear-gradient(135deg, var(--color-gold-champagne), var(--color-gold-muted));
+    color: var(--color-obsidian-dark);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    transition: all var(--duration-luxury) var(--easing-luxury);
+}
+
+.luxury-btn-primary:hover {
+    transform: scale(1.03);
+}
+
+/* Elegant gold gradient text */
+.text-gold-gradient {
+    background: linear-gradient(135deg, #FFF6E0 0%, var(--color-gold-champagne) 50%, var(--color-gold-muted) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
