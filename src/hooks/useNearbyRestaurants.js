@@ -69,17 +69,35 @@ export function useNearbyRestaurants(coordinates, searchRadius) {
 );
 out center;`;
 
-        const url = 'https://overpass-api.de/api/interpreter';
-        const response = await fetch(url, {
-          method: 'POST',
-          body: `data=${encodeURIComponent(query)}`,
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+        let response;
+        try {
+          response = await fetch('/api/restaurants', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              latitude: coordinates.lat,
+              longitude: coordinates.lng,
+              searchRadius: searchRadius
+            })
+          });
+          const contentType = response.headers.get('content-type') || '';
+          if (!response.ok || contentType.includes('text/html')) {
+            throw new Error("Serverless function not available");
           }
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch from Overpass API");
+        } catch (apiErr) {
+          const overpassUrl = 'https://overpass-api.de/api/interpreter';
+          response = await fetch(overpassUrl, {
+            method: 'POST',
+            body: `data=${encodeURIComponent(query)}`,
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            }
+          });
+          if (!response.ok) {
+            throw new Error("Failed to fetch from Overpass API");
+          }
         }
 
         const data = await response.json();
